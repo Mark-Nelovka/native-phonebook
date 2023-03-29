@@ -7,8 +7,8 @@ export const ViewContainer = styled.View`
   min-height: ${(props) => props.height + "px"};
 `;
 
-export const Form = styled.View`
-  width: ${(props) => props.width / 2 + "px"};
+export const FormContainer = styled.View`
+  width: ${(props) => props.width / 1.4 + "px"};
 `;
 
 export const InputForm = styled.TextInput`
@@ -25,7 +25,7 @@ export const LoginButton = styled.TouchableOpacity`
   border-color: #000;
   border-width: 1px;
   margin-top: 50px;
-  padding: 10px;
+  padding: 3px;
 `;
 
 export const TextButton = styled.Text`
