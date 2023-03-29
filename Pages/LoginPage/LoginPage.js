@@ -16,27 +16,25 @@ import * as s from "./Login.styled";
 import { Formik } from "formik";
 
 const loginValidationSchema = yup.object().shape({
-  email: yup.string().email(),
+  email: yup.string(),
   password: yup
     .string()
-
     .min(5, ({ min }) => `Password must be at least ${min} characters`),
 });
 
-export default function LoginPage() {
-  const [emailInput, setEmailInput] = useState("");
-  const [passwordInput, setPasswordInput] = useState("");
-  const [submitErrorMessage, setSubmitErrorMessage] = useState("");
+export default function LoginPage({ navigation }) {
   const [loading, setloading] = useState(false);
 
-  const emailHandler = (value) => {
-    setEmailInput(value);
-  };
-  const passwordHandler = (value) => setPasswordInput(value);
-
-  const onLogin = (dataForm) => {
-    if (!dataForm.email || !dataForm.password) {
-      Toast.show("All field is required", {
+  const handleSubmit = async (dataForm) => {
+    try {
+      await loginValidationSchema.validate(dataForm);
+      setloading(true);
+      setTimeout(() => {
+        setloading(false);
+        Keyboard.dismiss();
+      }, 2000);
+    } catch (error) {
+      Toast.show(`${error.message}`, {
         duration: Toast.durations.SHORT,
         position: 50,
         shadow: true,
@@ -44,15 +42,7 @@ export default function LoginPage() {
         hideOnPress: true,
         delay: 0,
       });
-      return;
     }
-    setloading(true);
-    setTimeout(() => {
-      setloading(false);
-      Keyboard.dismiss();
-    }, 2000);
-    setEmailInput("");
-    setPasswordInput("");
   };
 
   const { width, height } = Dimensions.get("window");
@@ -64,18 +54,11 @@ export default function LoginPage() {
         >
           <s.FormContainer width={width}>
             <Formik
-              validationSchema={loginValidationSchema}
+              // validationSchema={loginValidationSchema}
               initialValues={{ email: "", password: "" }}
-              onSubmit={(values) => onLogin(values)}
+              onSubmit={(values) => handleSubmit(values)}
             >
-              {({
-                handleChange,
-                handleBlur,
-                handleSubmit,
-                values,
-                errors,
-                isValid,
-              }) => (
+              {({ handleChange, handleBlur, handleSubmit, values }) => (
                 <>
                   <s.InputForm
                     name="email"
@@ -85,11 +68,6 @@ export default function LoginPage() {
                     value={values.email}
                     keyboardType="email-address"
                   />
-                  {errors.email && (
-                    <Text style={{ fontSize: 15, color: "red" }}>
-                      {errors.email}
-                    </Text>
-                  )}
                   <s.InputForm
                     name="password"
                     placeholder="Password"
@@ -98,50 +76,35 @@ export default function LoginPage() {
                     value={values.password}
                     secureTextEntry
                   />
-                  {errors.password && (
-                    <Text style={{ fontSize: 15, color: "red" }}>
-                      {errors.password}
-                    </Text>
-                  )}
-                  <s.LoginButton>
-                    <Button
-                      title="LOGIN"
-                      onPress={handleSubmit}
-                      disabled={!isValid}
-                    />
-                  </s.LoginButton>
+                  <s.ButtonContainer>
+                    <s.LoginButton>
+                      {loading && (
+                        <ActivityIndicator size="large" color="green" />
+                      )}
+                      {!loading && (
+                        <Button title="LOGIN" onPress={handleSubmit} />
+                      )}
+                    </s.LoginButton>
+                    <s.ReqButton>
+                      {loading && (
+                        <ActivityIndicator size="large" color="green" />
+                      )}
+                      {!loading && (
+                        <Button
+                          title="REQISTRATION"
+                          onPress={() =>
+                            navigation.navigate("Reqistration", {
+                              name: "Jane",
+                            })
+                          }
+                        />
+                      )}
+                    </s.ReqButton>
+                  </s.ButtonContainer>
                 </>
               )}
             </Formik>
           </s.FormContainer>
-          {/* <s.Form width={width}>
-            <s.InputForm
-              placeholder="Email"
-              value={emailInput}
-              onChangeText={emailHandler}
-              keyboardType="email-address"
-              maxLength={50}
-              autoFocus={true}
-            />
-            <s.InputForm
-              placeholder="Password"
-              value={passwordInput}
-              onChangeText={passwordHandler}
-              secureTextEntry={true}
-              maxLength={10}
-              minLength={5}
-              blurOnSubmit={false}
-              textContentType="newPassword"
-            />
-            <s.LoginButton onPress={onLogin}>
-              {loading && <ActivityIndicator size="large" color="#0000ff" />}
-              {!loading && <s.TextButton>Login</s.TextButton>}
-            </s.LoginButton>
-            <s.LoginButton onPress={onLogin}>
-              {loading && <ActivityIndicator size="large" color="#0000ff" />}
-              {!loading && <s.TextButton>Reqistration</s.TextButton>}
-            </s.LoginButton>
-          </s.Form> */}
         </KeyboardAvoidingView>
       </s.ViewContainer>
     </TouchableWithoutFeedback>

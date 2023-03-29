@@ -1,12 +1,30 @@
-import LoginPage from "./Pages/LoginPage/LoginPage";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { RootSiblingParent } from "react-native-root-siblings";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import LoginPage from "./Pages/LoginPage/LoginPage";
+import ReqistrationPage from "./Pages/Reqistration/ReqPage";
+
+const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
     <SafeAreaProvider>
       <RootSiblingParent>
-        <LoginPage />
+        <NavigationContainer>
+          <Stack.Navigator>
+            <Stack.Screen
+              name="Login"
+              component={LoginPage}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="Reqistration"
+              component={ReqistrationPage}
+              options={{ headerShown: false }}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
       </RootSiblingParent>
     </SafeAreaProvider>
   );

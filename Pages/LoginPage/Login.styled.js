@@ -20,12 +20,19 @@ export const InputForm = styled.TextInput`
   width: 100%;
 `;
 
+export const ButtonContainer = styled.View`
+  margin-top: 30px;
+`;
+
 export const LoginButton = styled.TouchableOpacity`
   border-radius: 50%;
   border-color: #000;
   border-width: 1px;
-  margin-top: 50px;
   padding: 3px;
+`;
+
+export const ReqButton = styled(LoginButton)`
+  margin-top: 10px;
 `;
 
 export const TextButton = styled.Text`
