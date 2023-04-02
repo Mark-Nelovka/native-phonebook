@@ -1,12 +1,12 @@
-import * as s from "./Req.styled";
+import * as s from "./Home.styled";
 import { Dimensions, Text } from "react-native";
 
-export default function ReqistrationPage() {
+export default function HomePage() {
   const { height } = Dimensions.get("window");
 
   return (
     <s.ViewContainer height={height}>
-      <Text>Reqistration for name</Text>
+      <Text>Home page</Text>
     </s.ViewContainer>
   );
 }

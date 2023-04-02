@@ -3,7 +3,7 @@ import { RootSiblingParent } from "react-native-root-siblings";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import LoginPage from "./Pages/LoginPage/LoginPage";
-import ReqistrationPage from "./Pages/Reqistration/ReqPage";
+import HomePage from "./Pages/HomePage/HomePage";
 
 const Stack = createNativeStackNavigator();
 
@@ -19,8 +19,8 @@ export default function App() {
               options={{ headerShown: false }}
             />
             <Stack.Screen
-              name="Reqistration"
-              component={ReqistrationPage}
+              name="Home"
+              component={HomePage}
               options={{ headerShown: false }}
             />
           </Stack.Navigator>
