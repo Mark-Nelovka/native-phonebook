@@ -26,16 +26,16 @@ const loginValidationSchema = yup.object().shape({
 
 export default function LoginPage() {
   const [loading, setloading] = useState(false);
-  const [errorEmail, setErrorEmail] = useState("");
-  const [errorPassword, setErrorPassword] = useState("");
+  // const [errorEmail, setErrorEmail] = useState("");
+  // const [errorPassword, setErrorPassword] = useState("");
 
   const handleSubmit = async (dataForm) => {
     setloading(true);
     switch (dataForm.buttonId) {
       case "Login":
         try {
-          // await loginValidationSchema.validate(dataForm);
           const signInResult = await Login(dataForm);
+          // console.log("signInResult: ", signInResult);
         } catch (error) {
           Toast.show(`${error.message}`, {
             duration: Toast.durations.SHORT,
@@ -48,6 +48,19 @@ export default function LoginPage() {
         }
         break;
       case "Reqistration":
+        try {
+          const signUpResult = await Reqistration(dataForm);
+          // console.log("signUpResult: ", signUpResult);
+        } catch (error) {
+          Toast.show(`${error.message}`, {
+            duration: Toast.durations.SHORT,
+            position: 50,
+            shadow: true,
+            animation: true,
+            hideOnPress: true,
+            delay: 0,
+          });
+        }
         break;
 
       default:
@@ -62,9 +75,9 @@ export default function LoginPage() {
     try {
       await loginValidationSchema.validate(dataForm);
       const reqistrationResult = await Reqistration(dataForm);
-      console.log(reqistrationResult);
+      // console.log(reqistrationResult);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       Toast.show(`${error.message}`, {
         duration: Toast.durations.SHORT,
         position: 50,
@@ -76,13 +89,13 @@ export default function LoginPage() {
     }
   };
 
-  const checkValidEmail = (e) => {
-    setErrorEmail(true);
-  };
+  // const checkValidEmail = (e) => {
+  //   setErrorEmail(true);
+  // };
 
-  const checkValidPassword = (e) => {
-    setErrorPassword(true);
-  };
+  // const checkValidPassword = (e) => {
+  //   setErrorPassword(true);
+  // };
 
   const { width, height } = Dimensions.get("window");
   return (
@@ -117,11 +130,9 @@ export default function LoginPage() {
                     value={values.email}
                     autoCapitalize="none"
                     autoFocus={true}
-                    onEndEditing={checkValidEmail}
+                    // onEndEditing={checkValidEmail}
                   />
-                  {errors && errorEmail && (
-                    <TextInput>{errors.email}</TextInput>
-                  )}
+                  {errors && <TextInput>{errors.email}</TextInput>}
                   <s.InputForm
                     name="password"
                     placeholder="Password"
@@ -129,11 +140,9 @@ export default function LoginPage() {
                     onBlur={handleBlur("password")}
                     value={values.password}
                     secureTextEntry
-                    onEndEditing={checkValidPassword}
+                    // onEndEditing={checkValidPassword}
                   />
-                  {errors && errorPassword && (
-                    <TextInput>{errors.password}</TextInput>
-                  )}
+                  {errors && <TextInput>{errors.password}</TextInput>}
                   <s.ButtonContainer>
                     <s.LoginButton>
                       {loading && (

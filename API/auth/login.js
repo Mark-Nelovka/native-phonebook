@@ -1,6 +1,5 @@
 import axios from "axios";
 export default async function Login(dataForm) {
-  console.log(dataForm);
   try {
     const res = await axios.post("http://localhost:3001/api/users/login", {
       email: dataForm.email,

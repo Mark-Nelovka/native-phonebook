@@ -8,10 +8,14 @@ export default async function Reqistration(dataForm) {
         password: dataForm.password,
       }
     );
-    console.log("SuccessfulAPI: ", res.data.data);
-    return res.data.data;
+    // console.log("SuccessfulAPI: ", res.data);
+    return res.data;
   } catch (error) {
-    console.log("ErrorAPI: ", error);
-    return error.data.data;
+    // console.log("ErrorAPI: ", error);
+    throw {
+      status: error.response.data.status,
+      message: error.response.data.message,
+      data: error.response.data.data,
+    };
   }
 }
