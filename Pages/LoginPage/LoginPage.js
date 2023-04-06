@@ -15,6 +15,7 @@ import {
 import * as s from "./Login.styled";
 import { Formik } from "formik";
 import { Login, Reqistration } from "../../API/auth";
+import { useTheme } from "../../state/auth";
 
 const loginValidationSchema = yup.object().shape({
   email: yup.string().email().required(),
@@ -24,10 +25,13 @@ const loginValidationSchema = yup.object().shape({
     .min(5, ({ min }) => `Password must be at least ${min} characters`),
 });
 
-export default function LoginPage() {
+export default function LoginPage({ route, screenOptions }) {
   const [loading, setloading] = useState(false);
-  // const [errorEmail, setErrorEmail] = useState("");
-  // const [errorPassword, setErrorPassword] = useState("");
+  const { dispatch } = useTheme();
+
+  useEffect(() => {
+    console.log(route);
+  }, []);
 
   const handleSubmit = async (dataForm) => {
     setloading(true);
@@ -69,33 +73,6 @@ export default function LoginPage() {
 
     setloading(false);
   };
-
-  const handleReqistrationSubmit = async (dataForm) => {
-    setloading(true);
-    try {
-      await loginValidationSchema.validate(dataForm);
-      const reqistrationResult = await Reqistration(dataForm);
-      // console.log(reqistrationResult);
-    } catch (error) {
-      // console.log(error);
-      Toast.show(`${error.message}`, {
-        duration: Toast.durations.SHORT,
-        position: 50,
-        shadow: true,
-        animation: true,
-        hideOnPress: true,
-        delay: 0,
-      });
-    }
-  };
-
-  // const checkValidEmail = (e) => {
-  //   setErrorEmail(true);
-  // };
-
-  // const checkValidPassword = (e) => {
-  //   setErrorPassword(true);
-  // };
 
   const { width, height } = Dimensions.get("window");
   return (

@@ -13,6 +13,5 @@ export default async function Login(dataForm) {
       message: error.response.data.message,
       data: error.response.data.data,
     };
-    // return error.response.data.message;
   }
 }
